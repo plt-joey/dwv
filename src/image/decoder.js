@@ -40,10 +40,10 @@ const hasJpeg2000Decoder = (typeof JpxImage !== 'undefined');
  * Decoder scripts to be passed to web workers for image decoding.
  */
 export const decoderScripts = {
-  jpeg2000: '',
-  'jpeg-lossless': '',
-  'jpeg-baseline': '',
-  rle: ''
+  jpeg2000: new URL('../../decoders/pdfjs/decode-jpeg2000.js', import.meta.url),
+  'jpeg-lossless': new URL('../../decoders/rii-mango/decode-jpegloss.js', import.meta.url),
+  'jpeg-baseline': new URL('../../decoders/pdfjs/decode-jpegbaseline.js', import.meta.url),
+  rle: new URL('../../decoders/dwv/decode-rle.js', import.meta.url)
 };
 
 /**
