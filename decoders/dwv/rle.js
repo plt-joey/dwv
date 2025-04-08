@@ -1,6 +1,6 @@
 // namespaces
 // (do not use dwv since it is the exported module name)
-var dwvdecoder = dwvdecoder || {};
+export var dwvdecoder = dwvdecoder || {};
 
 /**
  * RLE (Run-length encoding) decoder class.

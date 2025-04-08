@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+// MODIFIED to play nicely with ECM style imports
+
 'use strict';
 
 //(function (root, factory) {
@@ -39,7 +41,7 @@ version was created by github user notmasteryet
  (partners.adobe.com/public/developer/en/ps/sdk/5116.DCT_Filter.pdf)
 */
 
-var JpegImage = (function jpegImage() {
+export var JpegImage = (function jpegImage() {
   var dctZigZag = new Uint8Array([
      0,
      1,  8,

@@ -4,7 +4,8 @@
 // Do not warn if these variables were not defined before.
 /* global importScripts */
 
-importScripts('rle.js');
+// importScripts('rle.js');
+import {dwvdecoder} from './rle.js';
 
 self.addEventListener('message', function (event) {
 

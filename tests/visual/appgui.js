@@ -17,15 +17,6 @@ var test = test || {};
 test.initDwv = function () {
   // logger level (optional)
   dwv.logger.level = dwv.logger.levels.DEBUG;
-  // image decoders (for web workers)
-  dwv.decoderScripts.jpeg2000 =
-    '../../decoders/pdfjs/decode-jpeg2000.js';
-  dwv.decoderScripts['jpeg-lossless'] =
-    '../../decoders/rii-mango/decode-jpegloss.js';
-  dwv.decoderScripts['jpeg-baseline'] =
-    '../../decoders/pdfjs/decode-jpegbaseline.js';
-  dwv.decoderScripts.rle =
-    '../../decoders/dwv/decode-rle.js';
 };
 
 // test data line

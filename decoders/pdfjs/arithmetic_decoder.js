@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+// MODIFIED to play nicely with ECM style imports
+
 'use strict';
 
 /* This class implements the QM Coder decoding as defined in
@@ -25,7 +27,7 @@
  * The arithmetic decoder is used in conjunction with context models to decode
  * JPEG2000 and JBIG2 streams.
  */
-var ArithmeticDecoder = (function ArithmeticDecoderClosure() {
+export var ArithmeticDecoder = (function ArithmeticDecoderClosure() {
   // Table C-2
   var QeTable = [
     {qe: 0x5601, nmps: 1, nlps: 1, switchFlag: 1},

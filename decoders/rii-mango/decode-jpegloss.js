@@ -4,7 +4,7 @@
 // Do not warn if these variables were not defined before.
 /* global importScripts, jpeg */
 
-importScripts('lossless-min.js');
+import * as jpeg from './lossless.js';
 
 self.addEventListener('message', function (event) {
 

@@ -4,7 +4,8 @@
 // Do not warn if these variables were not defined before.
 /* global importScripts, JpegImage */
 
-importScripts('jpg.js');
+// importScripts('jpg.js');
+import { JpegImage } from "./jpg";
 
 self.addEventListener('message', function (event) {
 

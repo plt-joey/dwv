@@ -4,7 +4,8 @@
 // Do not warn if these variables were not defined before.
 /* global importScripts, JpxImage */
 
-importScripts('jpx.js', 'util.js', 'arithmetic_decoder.js');
+// importScripts('jpx.js', 'util.js', 'arithmetic_decoder.js');
+import {JpxImage} from './jpx.js';
 
 self.addEventListener('message', function (event) {
 

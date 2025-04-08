@@ -17,9 +17,15 @@
 /* globals ArithmeticDecoder, globalScope, log2, readUint16, readUint32,
            info, warn */
 
+// MODIFIED to play nicely with ECM style imports
+
 'use strict';
 
-var JpxImage = (function JpxImageClosure() {
+import {ArithmeticDecoder} from './arithmetic_decoder.js';
+
+import {log2, readUint16, readUint32, info, warn} from './util.js';
+
+export var JpxImage = (function JpxImageClosure() {
   // Table E.1
   var SubbandsGainLog2 = {
     'LL': 0,
