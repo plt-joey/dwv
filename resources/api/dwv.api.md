@@ -13,9 +13,8 @@ export function addTagsToDictionary(group: string, tags: {
 
 // @public
 export class Annotation {
-    addMetaItem(concept: DicomCode, value: DicomCode | string): void;
-    canView(): boolean;
-    colour: string;
+    addMetaItem(concept: DicomCode, value: DicomCode): void;
+    colour: string | undefined;
     getCentroid(): Point | undefined;
     getFactory(): object;
     getMetaConceptIds(): string[];
@@ -30,18 +29,14 @@ export class Annotation {
     planeOrigin: Point3D | undefined;
     planePoints: Point3D[] | undefined;
     quantification: object | undefined;
-    referencedFrameNumber: number;
-    referencedSopClassUID: string;
-    referencedSopInstanceUID: string;
     referencePoints: Point2D[] | undefined;
+    referenceSopUID: string;
     removeMetaItem(conceptId: string): void;
-    setIds(): void;
     setTextExpr(labelText: {
         [x: string]: string;
     }): void;
     setViewController(viewController: ViewController): void;
-    textExpr: string;
-    uid: string;
+    textExpr: string | undefined;
     updateQuantification(): void;
 }
 
@@ -50,17 +45,17 @@ export class AnnotationGroup {
     constructor(list?: Annotation[]);
     add(annotation: Annotation): void;
     addEventListener(type: string, callback: Function): void;
-    find(uid: string): Annotation | undefined;
+    find(id: string): Annotation | undefined;
     getColour(): string;
     getLength(): number;
     getList(): Annotation[];
     getMeta(): {
         [x: string]: any;
     };
-    getMetaValue(key: string): string | object | undefined;
+    getMetaValue(key: string): string | object;
     hasMeta(key: string): boolean;
     isEditable(): boolean;
-    remove(uid: string): void;
+    remove(id: string): void;
     removeEventListener(type: string, callback: Function): void;
     setColour(colour: string): void;
     setEditable(flag: boolean): void;
@@ -282,7 +277,7 @@ export const decoderScripts: {
     jpeg2000: string;
     'jpeg-lossless': string;
     'jpeg-baseline': string;
-    rle: URL;
+    rle: string;
 };
 
 // @public
@@ -331,8 +326,7 @@ export class DicomParser {
 export class DicomSRContent {
     constructor(valueType: string);
     conceptNameCode: DicomCode | undefined;
-    contentSequence: DicomSRContent[];
-    hasHeader(valueType: string, conceptNameCode: DicomCode, relationshipType: string): boolean;
+    contentSequence: DicomSRContent[] | undefined;
     relationshipType: string;
     toString(prefix?: string): string;
     value: object;
@@ -357,17 +351,17 @@ export class DicomWriter {
 export class DrawController {
     constructor(group?: AnnotationGroup);
     addAnnotation(annotation: Annotation): void;
-    getAnnotation(uid: string): Annotation | undefined;
+    getAnnotation(id: string): Annotation | undefined;
     getAnnotationGroup(): AnnotationGroup;
     hasAnnotationMeta(key: string): boolean;
     isAnnotationGroupEditable(): boolean;
     removeAllAnnotationsWithCommand(exeCallback: Function): void;
-    removeAnnotation(uid: string): void;
-    removeAnnotationWithCommand(uid: string, exeCallback: Function): void;
+    removeAnnotation(id: string): void;
+    removeAnnotationWithCommand(id: string, exeCallback: Function): void;
     setAnnotationGroupEditable(flag: boolean): void;
     setAnnotationMeta(key: string, value: string): void;
     updateAnnotation(annotation: Annotation, propKeys?: string[]): void;
-    updateAnnotationWithCommand(uid: string, originalProps: object, newProps: object, exeCallback: Function): void;
+    updateAnnotationWithCommand(id: string, originalProps: object, newProps: object, exeCallback: Function): void;
 }
 
 // @public
@@ -1178,7 +1172,6 @@ export class ViewController {
     getPositionHelperClone(): PositionHelper;
     getRescaledImageValue(position: Point): number | undefined;
     getScrollDimIndex(): number;
-    getSopClassUid(): string | undefined;
     getWindowLevel(): WindowLevel;
     getWindowLevelPresetsNames(): string[];
     includesImageUid(uid: string): boolean;
