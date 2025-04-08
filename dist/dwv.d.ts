@@ -17,37 +17,19 @@ export declare function addTagsToDictionary(group: string, tags: {
  */
 export declare class Annotation {
     /**
-     * ID, strored as tracking id, this id is not unique.
+     * The ID.
      *
      * @type {string}
      */
     id: string;
     /**
-     * UID, stored as tracking unique id.
+     * The reference image SOP UID.
      *
      * @type {string}
      */
-    uid: string;
+    referenceSopUID: string;
     /**
-     * Referenced image SOP isntance UID.
-     *
-     * @type {string}
-     */
-    referencedSopInstanceUID: string;
-    /**
-     * Referenced image SOP class UID.
-     *
-     * @type {string}
-     */
-    referencedSopClassUID: string;
-    /**
-     * Referenced frame number.
-     *
-     * @type {number}
-     */
-    referencedFrameNumber: number;
-    /**
-     * Mathematical shape.
+     * The mathematical shape.
      *
      * @type {object}
      */
@@ -59,11 +41,11 @@ export declare class Annotation {
      */
     referencePoints: Point2D[] | undefined;
     /**
-     * Colour: for example 'green', '#00ff00' or 'rgb(0,255,0)'.
+     * The color: for example 'green', '#00ff00' or 'rgb(0,255,0)'.
      *
-     * @type {string}
+     * @type {string|undefined}
      */
-    colour: string;
+    colour: string | undefined;
     /**
      * Annotation quantification.
      *
@@ -72,11 +54,11 @@ export declare class Annotation {
     quantification: object | undefined;
     /**
      * Text expression. Can contain variables surrounded with '{}' that will
-     *   be extracted from the quantification object.
+     * be extracted from the quantification object.
      *
-     * @type {string}
+     * @type {string|undefined}
      */
-    textExpr: string;
+    textExpr: string | undefined;
     /**
      * Label position. If undefined, the default shape
      *   label position will be used.
@@ -85,7 +67,7 @@ export declare class Annotation {
      */
     labelPosition: Point2D | undefined;
     /**
-     * Plane origin: 3D position of index [0, 0, k].
+     * The plane origin, the 3D position of index [0, 0, k].
      *
      * @type {Point3D|undefined}
      */
@@ -96,10 +78,6 @@ export declare class Annotation {
      * @type {Point3D[]|undefined}
      */
     planePoints: Point3D[] | undefined;
-    /**
-     * Set the annotation id and uid.
-     */
-    setIds(): void;
     /**
      * Get the concepts ids of the annotation meta data.
      *
@@ -118,9 +96,9 @@ export declare class Annotation {
      * Add annotation meta data.
      *
      * @param {DicomCode} concept The concept code.
-     * @param {DicomCode|string} value The value code.
+     * @param {DicomCode} value The value code.
      */
-    addMetaItem(concept: DicomCode, value: DicomCode | string): void;
+    addMetaItem(concept: DicomCode, value: DicomCode): void;
     /**
      * Remove an annotation meta data.
      *
@@ -140,13 +118,6 @@ export declare class Annotation {
      * @param {ViewController} viewController The associated view controller.
      */
     init(viewController: ViewController): void;
-    /**
-     * Check if the annotation can be displayed: true if it has
-     * an associated view controller.
-     *
-     * @returns {boolean} True if the annotation can be displayed.
-     */
-    canView(): boolean;
     /**
      * Check if an input view is compatible with the annotation.
      *
@@ -256,9 +227,9 @@ export declare class AnnotationGroup {
     /**
      * Remove an annotation.
      *
-     * @param {string} uid The UID of the annotation to remove.
+     * @param {string} id The id of the annotation to remove.
      */
-    remove(uid: string): void;
+    remove(id: string): void;
     /**
      * Set the associated view controller.
      *
@@ -268,10 +239,10 @@ export declare class AnnotationGroup {
     /**
      * Find an annotation.
      *
-     * @param {string} uid The UID of the annotation to find.
+     * @param {string} id The id of the annotation to find.
      * @returns {Annotation|undefined} The found annotation.
      */
-    find(uid: string): Annotation | undefined;
+    find(id: string): Annotation | undefined;
     /**
      * Get the meta data.
      *
@@ -291,9 +262,9 @@ export declare class AnnotationGroup {
      * Get a meta data value.
      *
      * @param {string} key The meta data key.
-     * @returns {string|object|undefined} The meta data value.
+     * @returns {string|object} The meta data value.
      */
-    getMetaValue(key: string): string | object | undefined;
+    getMetaValue(key: string): string | object;
     /**
      * Set a meta data.
      *
@@ -1301,7 +1272,7 @@ export declare const decoderScripts: {
     jpeg2000: string;
     'jpeg-lossless': string;
     'jpeg-baseline': string;
-    rle: URL;
+    rle: string;
 };
 
 /**
@@ -1529,11 +1500,11 @@ export declare class DicomSRContent {
      */
     relationshipType: string;
     /**
-     * Content sequence.
+     * Content sequence (0040,A730).
      *
-     * @type {DicomSRContent[]}
+     * @type {DicomSRContent[]|undefined}
      */
-    contentSequence: DicomSRContent[];
+    contentSequence: DicomSRContent[] | undefined;
     /**
      * Value.
      *
@@ -1547,15 +1518,6 @@ export declare class DicomSRContent {
      * @returns {string} The object as string.
      */
     toString(prefix?: string): string;
-    /**
-     * Check if this content has input header values.
-     *
-     * @param {string} valueType The value type.
-     * @param {DicomCode} conceptNameCode The concept name code.
-     * @param {string} relationshipType The relationship type.
-     * @returns {boolean} True if equal.
-     */
-    hasHeader(valueType: string, conceptNameCode: DicomCode, relationshipType: string): boolean;
 }
 
 /**
@@ -1653,10 +1615,10 @@ export declare class DrawController {
     /**
      * Get an annotation.
      *
-     * @param {string} uid The annotation UID.
+     * @param {string} id The annotation id.
      * @returns {Annotation|undefined} The annotation.
      */
-    getAnnotation(uid: string): Annotation | undefined;
+    getAnnotation(id: string): Annotation | undefined;
     /**
      * Get the annotation group.
      *
@@ -1691,27 +1653,27 @@ export declare class DrawController {
     /**
      * Remove an anotation for the list.
      *
-     * @param {string} uid The UID of the annotation to remove.
+     * @param {string} id The id of the annotation to remove.
      */
-    removeAnnotation(uid: string): void;
+    removeAnnotation(id: string): void;
     /**
      * Remove an annotation via a remove command (triggers draw actions).
      *
-     * @param {string} uid The annotation UID.
+     * @param {string} id The annotation id.
      * @param {Function} exeCallback The undo stack callback.
      */
-    removeAnnotationWithCommand(uid: string, exeCallback: Function): void;
+    removeAnnotationWithCommand(id: string, exeCallback: Function): void;
     /**
      * Update an annotation via an update command (triggers draw actions).
      *
-     * @param {string} uid The annotation UID.
+     * @param {string} id The annotation id.
      * @param {object} originalProps The original annotation properties
      *   that will be updated.
      * @param {object} newProps The new annotation properties
      *   that will replace the original ones.
      * @param {Function} exeCallback The undo stack callback.
      */
-    updateAnnotationWithCommand(uid: string, originalProps: object, newProps: object, exeCallback: Function): void;
+    updateAnnotationWithCommand(id: string, originalProps: object, newProps: object, exeCallback: Function): void;
     /**
      * Remove all annotations via remove commands (triggers draw actions).
      *
@@ -5158,7 +5120,7 @@ export declare const toolList: {
  *     const group = new Konva.Group();
  *     group.name('love-group');
  *     group.visible(true);
- *     group.id(annotation.uid);
+ *     group.id(annotation.id);
  *     group.add(shape);
  *     return group;
  *   }
@@ -5643,12 +5605,6 @@ export declare class ViewController {
      * @returns {string} The modality.
      */
     getModality(): string;
-    /**
-     * Get the image SOP class UID.
-     *
-     * @returns {string|undefined} The uid.
-     */
-    getSopClassUid(): string | undefined;
     /**
      * Get the window/level presets names.
      *
